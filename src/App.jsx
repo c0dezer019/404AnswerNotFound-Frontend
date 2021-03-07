@@ -1,9 +1,10 @@
 import React from 'react';
 import Routes from './config/routes';
-import 'semantic-ui-css/semantic.min.css';
+import Header from './components/Header';
 
 const App = () => (
   <div className="App">
+    <Header />
     <Routes />
   </div>
 );
