@@ -1,9 +1,10 @@
 const path = require('path');
-const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  mode: 'development',
+  entry: './src/index.jsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -16,47 +17,25 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
+        test: /\.sc?ass$/,
         exclude: /node_modules/,
-        use: [
-          { loader: 'style-loader' },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[name]__[local]___[hash:base64:5]',
-              },
-              sourceMap: true,
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  ['autoprefixer', {}],
-                ],
-              },
-            },
-          },
-        ],
+        use: ['style-loader', 'css-loader', 'sass-loader']
+        ,
       },
       {
-        test: /\.(png|jpe?g|gif)$/,
-        loader: 'url-loader?limit=10000&name=img/[name].[ext]',
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: 'asset/resource',
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: `${ __dirname }/src/index.html`,
-      filename: 'index.html',
-      inject: 'body',
+      template: path.resolve(__dirname, 'src', 'index.html'),
     }),
   ],
 };
